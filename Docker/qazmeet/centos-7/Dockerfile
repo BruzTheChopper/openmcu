@@ -12,8 +12,9 @@ RUN mkdir -p /tmp/build \
  && cd /tmp/build \
  && yum install -y wget bzip2 which freetype-devel freetype \
  kernel-devel gcc gcc-c++ make patch git flex bison autoconf automake pkgconfig \
- rpm-build libtool libtool-ltdl-devel openssl-devel \
- && wget http://www.nasm.us/pub/nasm/releasebuilds/${NASM_VER}/nasm-${NASM_VER}.tar.xz \
+ rpm-build libtool libtool-ltdl-devel openssl-devel 
+ 
+RUN --no-check-certificate wget http://www.nasm.us/pub/nasm/releasebuilds/${NASM_VER}/nasm-${NASM_VER}.tar.xz \
  && tar -xvf ./nasm-${NASM_VER}.tar.xz \
  && cd nasm-${NASM_VER} \
  && ./configure && make && make install && cd .. \
