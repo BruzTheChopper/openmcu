@@ -2716,7 +2716,7 @@ BOOL SelectRoomPage::OnGET (PHTTPServer & server, const PURL &url, const PMIMEIn
     << "<table class=\"table table-striped table-bordered table-condensed\">"
 
     << "<tr>"
-    << "<td colspan='7'><input type='text' class='input-small' name='newroom' id='newroom' value='" << nextRoom << "' /><input type='button' class='btn btn-large btn-info' id='l_select_create' onclick=\"location.href='?action=create&room='+encodeURIComponent(document.getElementById('newroom').value);\"><input type='button' class='btn btn-large btn-info' id='l_select_createSFU' onclick=\"location.href='https://qazmeet.altf4.kz/'+encodeURIComponent(document.getElementById('newroom').value);\"></td>"
+    << "<td colspan='7'><input type='text' class='input-small' name='newroom' id='newroom' value='" << nextRoom << "' /><input type='button' class='btn btn-large btn-info' id='l_select_create' onclick=\"location.href='?action=create&room='+encodeURIComponent(document.getElementById('newroom').value);\"><input type='button' class='btn btn-large btn-info' id='l_select_createSFU' onclick=\"location.href='https://demo.qazmeet.kz/'+encodeURIComponent(document.getElementById('newroom').value);\"></td>"
 
     << "</tr>"
 
