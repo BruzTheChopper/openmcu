@@ -2,10 +2,10 @@ FROM centos:7
 
 # fail if build with libvpx > 1.5
 
-ENV NASM_VER="2.15.05" \
+ENV NASM_VER="2.13.01" \
  MCU_CONF_OPTS="--enable-static --disable-v4l --disable-v4l2" \
- FFMPEG_VER="5.0.1" \
- LIBVPX_VER="1.11.0" \
+ FFMPEG_VER="4.3" \
+ LIBVPX_VER="1.5.0" \
  MY_USER="mcu"
 
 RUN mkdir -p /tmp/build \
@@ -30,4 +30,17 @@ RUN --no-check-certificate wget http://www.nasm.us/pub/nasm/releasebuilds/${NASM
  && cd ./ffmpeg-${FFMPEG_VER} \
  && ./configure --enable-libx264 --enable-libvpx --enable-gpl --disable-static --enable-shared \
  && make -j 3 && make install && cd .. 
+ 
+RUN git clone git://github.com/muggot/openmcu.git ./openmcu-ru \
+ && cd ./openmcu-ru \
+ && ./autogen.sh && ./configure $MCU_CONF_OPTS && make -j 3 && make install \
+ && rm -rf /tmp/* \
+ && yum remove -y wget bzip2 which git freetype-devel flex bison autoconf automake pkgconfig \
+ rpm-build libtool libtool-ltdl-devel openssl-devel \
+ && yum clean all || echo "not all clean" \
+ && rm -rf /var/cache/yum
+ 
+ EXPOSE 5060 5061 1420 1554 1720
+
+CMD ["/opt/openmcu-ru/bin/openmcu-ru", "-x"]
  
