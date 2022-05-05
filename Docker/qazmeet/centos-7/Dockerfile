@@ -8,13 +8,14 @@ ENV NASM_VER="2.13.01" \
  LIBVPX_VER="1.5.0" \
  MY_USER="mcu"
 
+RUN yum install -y wget
+
 RUN mkdir -p /tmp/build \
  && cd /tmp/build \
  && yum install -y wget bzip2 which freetype-devel freetype \
  kernel-devel gcc gcc-c++ make patch git flex bison autoconf automake pkgconfig \
- rpm-build libtool libtool-ltdl-devel openssl-devel 
- 
-RUN --no-check-certificate wget http://www.nasm.us/pub/nasm/releasebuilds/${NASM_VER}/nasm-${NASM_VER}.tar.xz \
+ rpm-build libtool libtool-ltdl-devel openssl-devel \
+ && wget https://www.nasm.us/pub/nasm/releasebuilds/${NASM_VER}/nasm-${NASM_VER}.tar.xz --no-check-certificate \
  && tar -xvf ./nasm-${NASM_VER}.tar.xz \
  && cd nasm-${NASM_VER} \
  && ./configure && make && make install && cd .. \
@@ -29,18 +30,4 @@ RUN --no-check-certificate wget http://www.nasm.us/pub/nasm/releasebuilds/${NASM
  && tar xvfz ./ffmpeg-${FFMPEG_VER}.tar.gz \
  && cd ./ffmpeg-${FFMPEG_VER} \
  && ./configure --enable-libx264 --enable-libvpx --enable-gpl --disable-static --enable-shared \
- && make -j 3 && make install && cd .. 
- 
-RUN git clone git://github.com/muggot/openmcu.git ./openmcu-ru \
- && cd ./openmcu-ru \
- && ./autogen.sh && ./configure $MCU_CONF_OPTS && make -j 3 && make install \
- && rm -rf /tmp/* \
- && yum remove -y wget bzip2 which git freetype-devel flex bison autoconf automake pkgconfig \
- rpm-build libtool libtool-ltdl-devel openssl-devel \
- && yum clean all || echo "not all clean" \
- && rm -rf /var/cache/yum
- 
- EXPOSE 5060 5061 1420 1554 1720
-
-CMD ["/opt/openmcu-ru/bin/openmcu-ru", "-x"]
- 
+ && make -j 3 && make install && cd ..
